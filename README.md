@@ -1,4 +1,3 @@
-# (logo.png)
 
 > ### Angular 2 codebase containing real world examples (CRUD, auth, advanced patterns, etc)
 
@@ -17,7 +16,7 @@ Run `ng build` to build the project. The build artifacts will be stored in the `
 
 ## Functionality overview
 
-The example application is a social blogging site (i.e. a Medium.com clone) called "Conduit". It uses a custom API for all requests, including authentication. You can view a live demo over at https://angular2.realworld.io
+The example application is a social blogging site (i.e. a Medium.com clone) called "Conduit". It uses a custom API for all requests, including authentication.
 
 **General functionality:**
 
