@@ -12,7 +12,7 @@ export class ApiService {
   constructor(
     private http: Http,
     private jwtService: JwtService
-  ) {}
+  ) { }
 
   private setHeaders(): Headers {
     let headersConfig = {
@@ -27,13 +27,13 @@ export class ApiService {
   }
 
   private formatErrors(error: any) {
-     return Observable.throw(error.json());
+    return Observable.throw(error.json());
   }
 
   get(path: string, params: URLSearchParams = new URLSearchParams()): Observable<any> {
     return this.http.get(`${environment.api_url}${path}`, { headers: this.setHeaders(), search: params })
-    .catch(this.formatErrors)
-    .map((res:Response) => res.json());
+      .catch(this.formatErrors)
+      .map((res: Response) => res.json());
   }
 
   put(path: string, body: Object = {}): Observable<any> {
@@ -42,8 +42,8 @@ export class ApiService {
       JSON.stringify(body),
       { headers: this.setHeaders() }
     )
-    .catch(this.formatErrors)
-    .map((res:Response) => res.json());
+      .catch(this.formatErrors)
+      .map((res: Response) => res.json());
   }
 
   post(path: string, body: Object = {}): Observable<any> {
@@ -52,8 +52,8 @@ export class ApiService {
       JSON.stringify(body),
       { headers: this.setHeaders() }
     )
-    .catch(this.formatErrors)
-    .map((res:Response) => res.json());
+      .catch(this.formatErrors)
+      .map((res: Response) => res.json());
   }
 
   delete(path): Observable<any> {
@@ -61,7 +61,7 @@ export class ApiService {
       `${environment.api_url}${path}`,
       { headers: this.setHeaders() }
     )
-    .catch(this.formatErrors)
-    .map((res:Response) => res.json());
+      .catch(this.formatErrors)
+      .map((res: Response) => res.json());
   }
 }

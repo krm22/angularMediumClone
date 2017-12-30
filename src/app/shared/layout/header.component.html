@@ -1,6 +1,6 @@
 <nav class="navbar navbar-light">
   <div class="container">
-    <a class="navbar-brand" routerLink="/">conduit</a>
+    <a class="navbar-brand" routerLink="/">PermaGlobal</a>
 
     <!-- Show this for logged out users -->
     <ul *showAuthed="false"
@@ -45,7 +45,9 @@
       </li>
 
       <li class="nav-item">
-        <a class="nav-link">
+        <a class="nav-link"
+           routerLink="/editor"
+           routerLinkActive="active">
           <i class="ion-compose"></i>&nbsp;New Article
         </a>
       </li>
