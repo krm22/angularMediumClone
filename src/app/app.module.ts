@@ -8,6 +8,7 @@ import { AuthModule } from './auth/auth.module';
 
 import {
   SharedModule,
+  AuthGuard,
   ApiService,
   UserService,
   JwtService,
@@ -32,6 +33,7 @@ const rootRouting: ModuleWithProviders = RouterModule.forRoot([], { useHash: tru
   ],
   providers: [
     ApiService,
+    AuthGuard,
     JwtService,
     UserService
   ],

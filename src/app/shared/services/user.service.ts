@@ -19,34 +19,27 @@ export class UserService {
   private isAuthenticatedSubject = new ReplaySubject<boolean>(1);
   public isAuthenticated = this.isAuthenticatedSubject.asObservable();
 
-  constructor(
+  constructor (
     private apiService: ApiService,
     private http: Http,
     private jwtService: JwtService
-  ) { }
+  ) {}
 
   // Verify JWT in localstorage with server & load user's info.
   // This runs once on application startup.
-
   populate() {
-
     // If JWT detected, attempt to get & store user's info
-
     if (this.jwtService.getToken()) {
-      // utilize our newly created get() method (params are optional)
       this.apiService.get('/user')
-        .subscribe(
+      .subscribe(
         data => this.setAuth(data.user),
         err => this.purgeAuth()
-        );
+      );
     } else {
-
       // Remove any potential remnants of previous auth states
-
       this.purgeAuth();
     }
   }
-
 
   setAuth(user: User) {
     // Save JWT sent from server in localstorage
@@ -68,17 +61,28 @@ export class UserService {
 
   attemptAuth(type, credentials): Observable<User> {
     let route = (type === 'login') ? '/login' : '';
-    return this.apiService.post('/users' + route, { user: credentials })
-      .map(
+    return this.apiService.post('/users' + route, {user: credentials})
+    .map(
       data => {
         this.setAuth(data.user);
         return data;
       }
-      );
+    );
   }
 
   getCurrentUser(): User {
     return this.currentUserSubject.value;
+  }
+
+  // Update the user on the server (email, pass, etc)
+  update(user): Observable<User> {
+    return this.apiService
+    .put('/user', { user })
+    .map(data => {
+      // Update the currentUser observable
+      this.currentUserSubject.next(data.user);
+      return data.user;
+    });
   }
 
 }
