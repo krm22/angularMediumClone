@@ -2,6 +2,7 @@ import { ModuleWithProviders, NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
 import { ArticleComponent } from './article.component';
+import { ArticleCommentComponent } from './article-comment.component';
 import { ArticleResolver } from './article-resolver.service';
 import { MarkdownPipe } from './markdown.pipe';
 import { SharedModule } from '../shared';
@@ -23,6 +24,7 @@ const articleRouting: ModuleWithProviders = RouterModule.forChild([
   ],
   declarations: [
     ArticleComponent,
+    ArticleCommentComponent,
     MarkdownPipe
   ],
 

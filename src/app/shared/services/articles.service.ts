@@ -5,13 +5,25 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/catch';
 
 import { ApiService } from './api.service';
-import { Article } from '../models';
-
+import { Article, ArticleListConfig } from '../models';
 @Injectable()
 export class ArticlesService {
   constructor (
     private apiService: ApiService
   ) {}
+
+  query(config: ArticleListConfig): Observable<{articles: Article[], articlesCount: number}> {
+      // Convert any filters over to Angular's URLSearchParams
+      let params: URLSearchParams = new URLSearchParams();
+
+      Object.keys(config.filters).forEach((key) => {
+        params.set(key, config.filters[key]);
+      });
+
+      return this.apiService
+      .get( '/articles' + ((config.type === 'feed') ? '/feed' : ''), params)
+       .map(data => data);
+    }
 
   get(slug): Observable<Article> {
     return this.apiService.get('/articles/' + slug)

@@ -5,6 +5,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import {
   Article,
   ArticlesService,
+  Comment,
+  CommentsService,
   User,
   UserService
 } from '../shared';
@@ -16,6 +18,9 @@ import {
 export class ArticleComponent implements OnInit {
   article: Article;
   currentUser: User;
+  comments: Comment[];
+  commentControl = new FormControl();
+  commentFormErrors = {};
   canModify: boolean;
   isSubmitting = false;
   isDeleting = false;
@@ -23,6 +28,7 @@ export class ArticleComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private articlesService: ArticlesService,
+    private commentsService: CommentsService,
     private router: Router,
     private userService: UserService,
   ) { }
@@ -32,6 +38,9 @@ export class ArticleComponent implements OnInit {
     this.route.data.subscribe(
       (data: { article: Article }) => {
         this.article = data.article;
+
+           // Load the comments on this article
+        this.populateComments();
       }
     );
 
@@ -69,5 +78,38 @@ export class ArticleComponent implements OnInit {
         }
       );
   }
+  populateComments() {
+      this.commentsService.getAll(this.article.slug)
+        .subscribe(comments => this.comments = comments);
+    }
+
+    addComment() {
+      this.isSubmitting = true;
+      this.commentFormErrors = {};
+
+      let commentBody = this.commentControl.value;
+      this.commentsService
+        .add(this.article.slug, commentBody)
+        .subscribe(
+          comment => {
+            this.comments.unshift(comment);
+            this.commentControl.reset('');
+            this.isSubmitting = false;
+          },
+          errors => {
+            this.isSubmitting = false;
+            this.commentFormErrors = errors;
+          }
+        );
+    }
+
+    onDeleteComment(comment) {
+      this.commentsService.destroy(comment.id, this.article.slug)
+        .subscribe(
+          success => {
+            this.comments = this.comments.filter((item) => item !== comment);
+          }
+        );
+    }
 
 }

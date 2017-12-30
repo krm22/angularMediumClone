@@ -12,10 +12,12 @@ import { SettingsModule } from './settings/settings.module';
 
 import {
   SharedModule,
+  TagsService,
   AuthGuard,
   ApiService,
   UserService,
   JwtService,
+  CommentsService,
   ProfilesService,
   ArticlesService,
   FooterComponent,
@@ -47,7 +49,9 @@ const rootRouting: ModuleWithProviders = RouterModule.forRoot([], { useHash: tru
     JwtService,
     ProfilesService,
     ArticlesService,
-    UserService
+    UserService,
+    TagsService,
+    CommentsService
   ],
   bootstrap: [AppComponent]
 })
